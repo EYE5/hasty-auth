@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npm run start
+CMD ["node", "app/app.js"]
 
 FROM node:lts-alpine as production
 COPY —from=build /app/dist /
