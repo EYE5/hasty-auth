@@ -1,3 +1,3 @@
-# hasty-gateway
+# hasty-auth
 
-Hasty rabbitmq gateway
+Hasty rabbitmq auth microservice
