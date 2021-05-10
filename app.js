@@ -3,7 +3,7 @@ const MicroMQ = require('micromq');
 const auth = new MicroMQ({
   name: 'auth',
   rabbit: {
-    url: 'amqp://hasty:superhardpassword@localhost:5682',
+    url: 'amqp://hasty:superhardpassword@rabbitmq:5672',
   },
 });
 
