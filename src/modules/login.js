@@ -9,7 +9,7 @@ async function login(req, res) {
 
   if (!username || !password) {
     res.status(400);
-    res.json({ text: 'Invalid username or password', code: 1000 });
+    res.json({ text: 'Invalid username or password', code: 1006 });
     return;
   }
 
@@ -17,22 +17,22 @@ async function login(req, res) {
 
   const User = mongoose.model('User', userSchema, 'users');
 
-  const u = await User.findOne({ username: username });
+  const user = await User.findOne({ username: username });
 
-  if (!u) {
+  if (!user) {
     res.status(400);
     res.json({ text: 'User not found', code: 1005 });
     return;
   }
 
-  const isIdentical = bcrypt.compareSync(password, u.password);
+  const isIdentical = bcrypt.compareSync(password, user.password);
 
   if (isIdentical) {
     const accessToken = await tokens.createAccessToken(username);
     const refreshToken = await tokens.createRefreshToken(username);
 
     res.status(200);
-    res.json({ accessToken, refreshToken });
+    res.json({ accessToken, refreshToken, user });
 
     return;
   } else {

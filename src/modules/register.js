@@ -8,7 +8,7 @@ async function register(req, res) {
 
   if (!username || !password) {
     res.status(400);
-    res.json({ text: 'Invalid data', code: 1000 });
+    res.json({ text: 'Invalid data', code: 1006 });
     return;
   }
 
