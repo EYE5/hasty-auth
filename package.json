@@ -9,9 +9,11 @@
   "author": "antsupov.official@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^9.0.2",
     "jsonwebtoken": "^8.5.1",
     "micromq": "^3.0.2",
+    "mongoose": "^5.12.9",
     "redis": "^3.1.2"
   },
   "devDependencies": {

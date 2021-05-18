@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const MicroMQ = require('micromq');
 
+const { login, register } = require('./src/modules');
+
 const app = new MicroMQ({
   name: 'auth',
   rabbit: {
@@ -9,10 +11,12 @@ const app = new MicroMQ({
   },
 });
 
-app.get('/test', (req, res) => {
-  console.log(req);
+app.post('/api/register', async (req, res) => {
+  await register(req, res);
+});
 
-  res.json({ code: 200, text: 'Hello' });
+app.post('/api/login', async (req, res) => {
+  await login(req, res);
 });
 
 app.start();
