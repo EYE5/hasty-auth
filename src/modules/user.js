@@ -15,6 +15,8 @@ async function getUser(req, res) {
     return;
   }
 
+  await mongo.connect('us');
+
   const User = mongoose.model('User', userSchema, 'users');
 
   const user = await User.findOne({ _id: new mongoose.Types.ObjectId(id) });
@@ -28,6 +30,8 @@ async function getUser(req, res) {
 
   res.status(200);
   res.json(user);
+
+  mongoose.disconnect();
 }
 
 async function getUserFriends(req, res) {
@@ -39,6 +43,8 @@ async function getUserFriends(req, res) {
 
     return;
   }
+
+  await mongo.connect('us');
 
   const User = mongoose.model('User', userSchema, 'users');
 
@@ -57,6 +63,8 @@ async function getUserFriends(req, res) {
 
   res.status(200);
   res.json(friends);
+
+  mongoose.disconnect();
 }
 
 async function getUserStatus(req, res) {
@@ -68,6 +76,8 @@ async function getUserStatus(req, res) {
 
     return;
   }
+
+  await mongo.connect('us');
 
   const User = mongoose.model('User', userSchema, 'users');
 
@@ -82,12 +92,12 @@ async function getUserStatus(req, res) {
 
   res.status(200);
   res.json({ status: user.online ? user.online : user.lastOnline });
+
+  mongoose.disconnect();
 }
 
 async function refreshUserStatus(req, res) {
   const { id } = req.query;
-
-  console.log('asd');
 
   if (!id) {
     res.status(400);
@@ -95,15 +105,15 @@ async function refreshUserStatus(req, res) {
 
     return;
   }
-  console.log('asd');
+
+  await mongo.connect('us');
+
   const User = mongoose.model('User', userSchema, 'users');
 
   const user = await User.updateOne(
     { _id: new mongoose.Types.ObjectId(id) },
     { online: true, lastOnline: Date.now() }
   );
-
-  console.log(user);
 
   if (statusWatchers[id]) clearTimeout(statusWatchers[id]);
 
@@ -115,10 +125,10 @@ async function refreshUserStatus(req, res) {
     delete statusWatchers[id];
   }, 30000);
 
-  statusWatchers[id].clearTimeout();
-
   res.status(200);
-  res.json(user);
+  res.json({ text: 'Status changed successfully', code: 400 }); //TODO change success code
+
+  mongoose.disconnect();
 }
 
 module.exports = {

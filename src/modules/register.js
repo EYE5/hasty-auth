@@ -36,6 +36,8 @@ async function register(req, res) {
 
   res.status(200);
   res.json({ text: 'Registration completed successfully', code: 1100 });
+
+  mongoose.disconnect();
 }
 
 module.exports = register;

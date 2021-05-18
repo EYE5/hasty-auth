@@ -33,14 +33,12 @@ async function login(req, res) {
 
     res.status(200);
     res.json({ accessToken, refreshToken, user });
-
-    return;
   } else {
     res.status(400);
     res.json({ text: 'Invalid username or password', code: 1000 });
-
-    return;
   }
+
+  mongoose.disconnect();
 }
 
 module.exports = login;
