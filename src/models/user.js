@@ -10,7 +10,6 @@ const userSchema = mongoose.Schema({
   lastOnline: { type: Date, default: Date.now() },
   online: { type: Boolean, default: false },
   chats: { type: Array, default: [], ref: 'Chat' },
-  messages: { type: Array, default: [], ref: 'Message' },
   friends: { type: Array, default: [], ref: 'User' },
 });
 

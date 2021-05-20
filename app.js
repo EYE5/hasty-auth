@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const MicroMQ = require('micromq');
 
-const { login, register, user } = require('./src/modules');
+const { login, register, user, chats } = require('./src/modules');
 
 const app = new MicroMQ({
   name: 'auth',
@@ -33,6 +33,18 @@ app.get('/api/get_status', async (req, res) => {
 
 app.get('/api/refresh_status', async (req, res) => {
   await user.refreshUserStatus(req, res);
+});
+
+app.get('/api/get_chats', async (req, res) => {
+  await chats.getChats(req, res);
+});
+
+app.post('/api/create_chat', async (req, res) => {
+  await chats.createChat(req, res);
+});
+
+app.get('/api/get_chat_users', async (req, res) => {
+  await chats.getChatUsers(req, res);
 });
 
 app.start();

@@ -16,9 +16,9 @@ async function register(req, res) {
 
   const User = mongoose.model('User', userSchema, 'users');
 
-  const u = await User.find({ username: username });
+  const u = await User.findOne({ username: username });
 
-  if (u.length) {
+  if (u) {
     res.status(400);
     res.json({ text: 'User already exists', code: 1001 });
     return;

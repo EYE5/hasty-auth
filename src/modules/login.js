@@ -3,6 +3,7 @@ const mongo = require('../utils/mongo');
 const userSchema = require('../models/user');
 const bcrypt = require('bcrypt');
 const tokens = require('../utils/tokens');
+const transform = require('../utils/transforms');
 
 async function login(req, res) {
   const { username, password } = req.body;
@@ -17,7 +18,7 @@ async function login(req, res) {
 
   const User = mongoose.model('User', userSchema, 'users');
 
-  const user = await User.findOne({ username: username });
+  let user = await User.findOne({ username: username });
 
   if (!user) {
     res.status(400);
@@ -31,6 +32,7 @@ async function login(req, res) {
     const accessToken = await tokens.createAccessToken(username);
     const refreshToken = await tokens.createRefreshToken(username);
 
+    user = transform.userToPrivate(user);
     res.status(200);
     res.json({ accessToken, refreshToken, user });
   } else {
