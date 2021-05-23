@@ -16,6 +16,7 @@ function userToPrivate(user) {
     userInfo: user.userInfo,
     avatar: user.avatar,
     friends: user.friends,
+    chats: user.chats,
   };
 }
 

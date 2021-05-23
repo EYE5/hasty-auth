@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const mongo = require('../utils/mongo');
 const userSchema = require('../models/user');
+const chatSchema = require('../models/chat');
 const transform = require('../utils/transforms');
 
 // Bad practice, but it easy to use
@@ -28,6 +29,17 @@ async function getUser(req, res) {
 
     return;
   }
+
+  const Chat = mongoose.model('Chat', chatSchema, 'chats');
+
+  const chats = await Chat.find({
+    _id: { $in: user.chats.map(chat => new mongoose.Types.ObjectId(chat)) },
+  });
+
+  user.chats = chats;
+
+  //very very bad practice
+  // i think better to check user token for username
   if (remote) {
     user = transform.userToPublic(user);
   } else {

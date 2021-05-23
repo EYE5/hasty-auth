@@ -65,7 +65,7 @@ async function createChat(req, res) {
   mongoose.disconnect();
 }
 
-export async function getChatUsers(req, res) {
+async function getChatUsers(req, res) {
   const { id } = req.query;
 
   if (!id) {
